@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.Set;
 
 import es.alba.sweet.base.output.Output;
 
@@ -16,13 +14,13 @@ public enum SharedDirectory {
 	private Path path;
 
 	private SharedDirectory() {
-		Properties properties = System.getProperties();
-		Set<Object> set = properties.keySet();
-		set.forEach(a -> System.out.println("Key: " + a.toString() + " - Value: " + properties.getProperty(a.toString())));
-
-		String dir = System.getProperty("osgi.instance.area").substring(6);
-		path = Paths.get(dir).getParent();
-		path = Paths.get(path.toString(), "config");
+		// Properties properties = System.getProperties();
+		// Set<Object> set = properties.keySet();
+		// set.forEach(a -> System.out.println("Key: " + a.toString() + " - Value: " + properties.getProperty(a.toString())));
+		//
+		// String dir = System.getProperty("osgi.instance.area").substring(6);
+		// path = Paths.get(dir).getParent();
+		path = Paths.get("C:\\JavaProgram\\config");
 		System.out.println("Shared directory is " + path.toString());
 		if (!Files.exists(this.path)) {
 			try {

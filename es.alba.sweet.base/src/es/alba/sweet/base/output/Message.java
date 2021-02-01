@@ -2,6 +2,8 @@ package es.alba.sweet.base.output;
 
 import java.awt.TrayIcon.MessageType;
 
+import es.alba.sweet.base.logger.LogFile;
+
 public class Message extends AMessage {
 
 	public Message(MessageType type, String method, String message) {
@@ -10,6 +12,6 @@ public class Message extends AMessage {
 
 	@Override
 	public String toString() {
-		return getDateTime() + " - " + getType() + " - " + getMessage() + "\n";
+		return getDateTime() + " - " + getType() + " - " + LogFile.USER_HOME + " - " + getMessage() + "\n";
 	}
 }

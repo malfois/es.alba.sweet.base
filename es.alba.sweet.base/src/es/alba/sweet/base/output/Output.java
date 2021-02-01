@@ -3,67 +3,40 @@ package es.alba.sweet.base.output;
 import java.awt.TrayIcon.MessageType;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Formatter;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
-import es.alba.sweet.base.constant.UserHome;
+import es.alba.sweet.base.logger.LogFile;
 
 public enum Output {
 
 	DEBUG(OutputName.DEBUG), MESSAGE(OutputName.MESSAGE, DEBUG);
 
-	private List<AMessage>		messages		= new ArrayList<>();
+	private List<AMessage>	messages		= new ArrayList<>();
 
-	private List<Output>		outputs			= new ArrayList<>();
+	private List<Output>	outputs			= new ArrayList<>();
 
-	private AMessage			currentMessage;
+	private AMessage		currentMessage;
 
-	private int					nLength			= 0;
+	private int				nLength			= 0;
 
-	private String				name;
+	private String			name;
 
-	public final static int		MAX_CHARACTERS	= 80000;
-
-	private static Logger		LOG;
-	private final static int	SIZE_LIMIT		= 1024 * 1024 * 5;
+	public final static int	MAX_CHARACTERS	= 80000;
 
 	Output(String name) {
 		this.name = name;
 	}
 
-	public void setLogger(Logger log) {
-		LOG = log;
-
-		LOG.setLevel(Level.INFO);
-
-		String userHome = UserHome.CLIENT.get().toString() + File.separator;
-
-		if (name.equals(MESSAGE.name)) info("es.alba.sweet.base.output.Output.setLogger", "Logging file will be in " + userHome + "Logging_n.txt (n being a number from 0 to 4)");
-
-		if (!name.equals(DEBUG.name)) return;
-
-		FileHandler fileTxt;
-		try {
-
-			fileTxt = new FileHandler(userHome + "Logging_%g.txt", SIZE_LIMIT, 5);
-			// create a TXT formatter
-			MessageFormatter formatterTxt = new MessageFormatter();
-			fileTxt.setFormatter(formatterTxt);
-			LOG.addHandler(fileTxt);
-
-		} catch (SecurityException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		}
-	}
+	// public void setLogger(Logger log) {
+	//
+	// String userHome = UserHome.CLIENT.get().toString() + File.separator;
+	//
+	// if (name.equals(MESSAGE.name)) info("es.alba.sweet.base.output.Output.setLogger", "Logging file will be in " + userHome + "Logging_n.txt (n being a number from 0 to 4)");
+	//
+	// if (!name.equals(DEBUG.name)) return;
+	//
+	// }
 
 	Output(String name, Output... outputs) {
 		this.outputs.addAll(List.of(outputs));
@@ -109,7 +82,7 @@ public enum Output {
 		outputs.forEach(a -> a.message(Factory(a.name, message.getType(), message.getMethod(), message.getMessage())));
 
 		if (name.equalsIgnoreCase(OutputName.DEBUG)) {
-			LOG.info(message.toString());
+			LogFile.LOG.info(message.toString());
 		}
 		System.out.print(message);
 	}
@@ -141,12 +114,4 @@ public enum Output {
 		changeSupport.firePropertyChange(propertyName, oldValue, newValue);
 	}
 
-	private class MessageFormatter extends Formatter {
-
-		@Override
-		public String format(LogRecord record) {
-			return record.getMessage();
-		}
-
-	}
 }
