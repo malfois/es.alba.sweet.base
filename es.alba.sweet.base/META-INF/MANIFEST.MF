@@ -9,4 +9,5 @@ Require-Bundle: com.fasterxml.jackson.core.jackson-annotations;bundle-version="2
  com.fasterxml.jackson.core.jackson-core;bundle-version="2.10.3",
  com.fasterxml.jackson.core.jackson-databind;bundle-version="2.10.3"
 Export-Package: es.alba.sweet.base.configuration,
+ es.alba.sweet.base.constant,
  es.alba.sweet.base.output

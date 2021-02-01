@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import es.alba.sweet.base.constant.UserHome;
+
 public enum Output {
 
 	DEBUG(OutputName.DEBUG), MESSAGE(OutputName.MESSAGE, DEBUG);
@@ -41,7 +43,7 @@ public enum Output {
 
 		LOG.setLevel(Level.INFO);
 
-		String userHome = System.getProperty("user.home") + File.separator;
+		String userHome = UserHome.CLIENT.get().toString() + File.separator;
 
 		if (name.equals(MESSAGE.name)) info("es.alba.sweet.base.output.Output.setLogger", "Logging file will be in " + userHome + "Logging_n.txt (n being a number from 0 to 4)");
 
