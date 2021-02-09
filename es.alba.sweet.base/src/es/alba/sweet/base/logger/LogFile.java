@@ -8,13 +8,13 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import es.alba.sweet.base.constant.UserHome;
+import es.alba.sweet.base.constant.Directory;
 import es.alba.sweet.base.output.Output;
 
 public class LogFile {
 
 	public static Logger		LOG;
-	public static UserHome		USER_HOME;
+	public static Directory		USER_HOME;
 
 	private final static int	SIZE_LIMIT	= 1024 * 1024 * 5;
 
@@ -22,7 +22,7 @@ public class LogFile {
 
 	}
 
-	public static void create(String className, UserHome userHome) {
+	public static void create(String className, Directory userHome) {
 		USER_HOME = userHome;
 
 		LOG = Logger.getLogger(className);
@@ -34,9 +34,6 @@ public class LogFile {
 			rootLogger.removeHandler(handlers[0]);
 		}
 
-		// Output.MESSAGE.setLogger(LOG);
-		// Output.DEBUG.setLogger(LOG);
-
 		LOG.setLevel(Level.INFO);
 
 		String userDirectory = userHome.get().toString() + File.separator;
@@ -46,10 +43,12 @@ public class LogFile {
 		FileHandler fileTxt;
 		try {
 
-			fileTxt = new FileHandler(userHome + "Logging_%g.txt", SIZE_LIMIT, 5);
+			// fileTxt = new FileHandler("Z:\\github\\SERVER\\Logging_%g.txt", SIZE_LIMIT, 5);
+			fileTxt = new FileHandler(userDirectory + "logging_%g_%u.log", SIZE_LIMIT, 5, true);
 			// create a TXT formatter
 			MessageFormatter formatterTxt = new MessageFormatter();
 			fileTxt.setFormatter(formatterTxt);
+			fileTxt.setLevel(Level.INFO);
 			LOG.addHandler(fileTxt);
 
 		} catch (SecurityException | IOException e) {

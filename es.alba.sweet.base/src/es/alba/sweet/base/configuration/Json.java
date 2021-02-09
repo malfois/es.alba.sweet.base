@@ -74,13 +74,20 @@ public class Json<T extends AFileConfiguration> {
 	}
 
 	public void print() {
-		StringWriter stringEmp = new StringWriter();
+		System.out.println(toString());
+	}
+
+	@Override
+	public String toString() {
+		StringWriter text = new StringWriter();
 		try {
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-			objectMapper.writeValue(stringEmp, this.configuration);
-			System.out.println(stringEmp);
+			objectMapper.writeValue(text, this.configuration);
+			return text.toString();
 		} catch (IOException e) {
-			Output.DEBUG.error("es.alba.sweet.configuration.Json.print", "Error reading configuration ");
+			Output.DEBUG.error("es.alba.sweet.configuration.Json.toString", "Error reading configuration ");
+			return e.getMessage();
 		}
 	}
+
 }

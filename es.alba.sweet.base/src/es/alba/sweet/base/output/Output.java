@@ -83,8 +83,9 @@ public enum Output {
 
 		if (name.equalsIgnoreCase(OutputName.DEBUG)) {
 			LogFile.LOG.info(message.toString());
+			System.out.print(message);
 		}
-		System.out.print(message);
+
 	}
 
 	private static AMessage Factory(String name, MessageType type, String method, String message) {
