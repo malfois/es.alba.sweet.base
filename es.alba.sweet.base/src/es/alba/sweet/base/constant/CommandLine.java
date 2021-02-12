@@ -10,7 +10,8 @@ public enum CommandLine {
 	private List<String> commandLine = new ArrayList<>();
 
 	private CommandLine(String type) {
-		if (type.equals("server")) initiliaseServer();
+		if (type.equals("server"))
+			initiliaseServer();
 	}
 
 	public List<String> get() {
@@ -18,21 +19,18 @@ public enum CommandLine {
 	}
 
 	private void initiliaseServer() {
-		commandLine.add("C:\\jdk\\jdk-11.0.2\\bin\\javaw.exe");
-		commandLine.add("-jar");
-		commandLine.add("Z:\\github\\sweetServer.jar");
-		// commandLine.add("Z:\github\es.alba.sweet.base\es.alba.sweet.base\bin;C:\Users\mmalfois\.p2\pool\plugins\com.fasterxml.jackson.core.jackson-annotations_2.10.3.v20200512-1600.jar;C:\Users\mmalfois\.p2\pool\plugins\com.fasterxml.jackson.core.jackson-core_2.10.3.v20200512-1600.jar;C:\Users\mmalfois\.p2\pool\plugins\com.fasterxml.jackson.core.jackson-databind_2.10.3.v20200512-1600.jar;Z:\github\es.alba.sweet.communication\es.alba.sweet.communication\bin;C:\Users\mmalfois\.p2\pool\plugins\org.eclipse.core.databinding.observable_1.10.0.v20200730-0848.jar;C:\Users\mmalfois\.p2\pool\plugins\org.eclipse.equinox.common_3.14.0.v20201102-2053.jar;Z:\github\es.alba.sweet.server\es.alba.sweet.server\bin"
-		// es.alba.sweet.server.SweetServer);
-		// //commandLine.add("es.alba.sweet.server.SweetServer");
+		String os = System.getProperty("os.name");
+		System.out.println(os);
+		if (os.equals("Linux")) {
+			commandLine.add("/beamlines/bl11/controls/Marc/jdk-11.0.2/bin/java");
+			commandLine.add("-jar");
+			commandLine.add("/beamlines/bl11/controls/Marc/javaRCP/jar/SweetServer.jar");
+		}
+		if (os.startsWith("Windows")) {
+			commandLine.add("C:\\jdk\\jdk-11.0.2\\bin\\javaw.exe");
+			commandLine.add("-jar");
+			commandLine.add("Z:\\github\\sweetServer.jar");
+		}
 	}
 
-	private String serverClassPath() {
-		return "Z:\\github\\es.alba.sweet.base\\es.alba.sweet.base\\bin;"
-				+ "C:\\Users\\mmalfois\\.p2\\pool\\plugins\\com.fasterxml.jackson.core.jackson-annotations_2.10.3.v20200512-1600.jar;"
-				+ "C:\\Users\\mmalfois\\.p2\\pool\\plugins\\com.fasterxml.jackson.core.jackson-core_2.10.3.v20200512-1600.jar;"
-				+ "C:\\Users\\mmalfois\\.p2\\pool\\plugins\\com.fasterxml.jackson.core.jackson-databind_2.10.3.v20200512-1600.jar;"
-				+ "Z:\\github\\es.alba.sweet.communication\\es.alba.sweet.communication\bin;"
-				+ "C:\\Users\\mmalfois\\.p2\\pool\\plugins\\org.eclipse.core.databinding.observable_1.10.0.v20200730-0848.jar;"
-				+ "C:\\Users\\mmalfois\\.p2\\pool\\plugins\\org.eclipse.equinox.common_3.14.0.v20201102-2053.jar;" + "Z:\\github\\es.alba.sweet.server\\es.alba.sweet.server\\bin";
-	}
 }

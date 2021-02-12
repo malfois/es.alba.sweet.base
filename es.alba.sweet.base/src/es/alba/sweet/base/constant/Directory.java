@@ -1,6 +1,5 @@
 package es.alba.sweet.base.constant;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,8 +19,10 @@ public enum Directory {
 			try {
 				Files.createDirectory(this.path);
 			} catch (IOException e) {
-				Output.DEBUG.error("es.alba.sweet.base.constant.UserHome.set", "Error creating directory " + this.path.toString());
-				e.printStackTrace();
+				System.out.println(e.getMessage());
+				Output.DEBUG.error("es.alba.sweet.base.constant.UserHome.set",
+						"Error creating directory " + this.path.toString());
+				// e.printStackTrace();
 			}
 		}
 	}
@@ -31,13 +32,14 @@ public enum Directory {
 	}
 
 	private Path getSharedDirectory() {
-		File file = new File(".");
-		String filename = file.getAbsolutePath();
-		while (filename.contains(MainPackage.NAME.get())) {
-			Path p = Paths.get(filename).getParent();
-			filename = p.toString();
+		String os = System.getProperty("os.name");
+		if (os.equals("Linux")) {
+			return Paths.get("/beamlines/bl11/controls/Marc/javaRCP");
 		}
-		return Paths.get("Z:\\github");
+		if (os.startsWith("Windows")) {
+			return Paths.get("Z:\\github");
+		}
+		return path;
 	}
 
 	public Path get() {

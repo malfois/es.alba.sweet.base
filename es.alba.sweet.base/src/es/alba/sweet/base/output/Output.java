@@ -6,41 +6,39 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.alba.sweet.base.constant.Application;
 import es.alba.sweet.base.logger.LogFile;
 
 public enum Output {
 
 	DEBUG(OutputName.DEBUG), MESSAGE(OutputName.MESSAGE, DEBUG);
 
-	private List<AMessage>	messages		= new ArrayList<>();
+	private List<AMessage> messages = new ArrayList<>();
 
-	private List<Output>	outputs			= new ArrayList<>();
+	private List<Output> outputs = new ArrayList<>();
 
-	private AMessage		currentMessage;
+	private AMessage currentMessage;
 
-	private int				nLength			= 0;
+	private int nLength = 0;
 
-	private String			name;
+	private String name;
 
-	public final static int	MAX_CHARACTERS	= 80000;
+	private Application application;
+
+	public final static int MAX_CHARACTERS = 80000;
 
 	Output(String name) {
 		this.name = name;
 	}
 
-	// public void setLogger(Logger log) {
-	//
-	// String userHome = UserHome.CLIENT.get().toString() + File.separator;
-	//
-	// if (name.equals(MESSAGE.name)) info("es.alba.sweet.base.output.Output.setLogger", "Logging file will be in " + userHome + "Logging_n.txt (n being a number from 0 to 4)");
-	//
-	// if (!name.equals(DEBUG.name)) return;
-	//
-	// }
-
 	Output(String name, Output... outputs) {
 		this.outputs.addAll(List.of(outputs));
 		this.name = name;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+		outputs.forEach(a -> a.setApplication(application));
 	}
 
 	public List<AMessage> getMessages() {
@@ -48,17 +46,17 @@ public enum Output {
 	}
 
 	public void info(String method, String message) {
-		AMessage info = Factory(name, MessageType.INFO, method, message);
+		AMessage info = Factory(name, MessageType.INFO, application, method, message);
 		message(info);
 	}
 
 	public void warning(String method, String message) {
-		AMessage warning = Factory(name, MessageType.WARNING, method, message);
+		AMessage warning = Factory(name, MessageType.WARNING, application, method, message);
 		message(warning);
 	}
 
 	public void error(String method, String message) {
-		AMessage error = Factory(name, MessageType.ERROR, method, message);
+		AMessage error = Factory(name, MessageType.ERROR, application, method, message);
 		message(error);
 	}
 
@@ -79,7 +77,7 @@ public enum Output {
 
 		setCurrentMessage(message);
 
-		outputs.forEach(a -> a.message(Factory(a.name, message.getType(), message.getMethod(), message.getMessage())));
+		outputs.forEach(a -> a.message(Factory(a.name, message.getType(), application, message.getMethod(), message.getMessage())));
 
 		if (name.equalsIgnoreCase(OutputName.DEBUG)) {
 			LogFile.LOG.info(message.toString());
@@ -88,12 +86,12 @@ public enum Output {
 
 	}
 
-	private static AMessage Factory(String name, MessageType type, String method, String message) {
+	private static AMessage Factory(String name, MessageType type, Application application, String method, String message) {
 		switch (name) {
 		case OutputName.MESSAGE:
-			return new Message(type, method, message);
+			return new Message(type, application, method, message);
 		case OutputName.DEBUG:
-			return new DebugMessage(type, method, message);
+			return new DebugMessage(type, application, method, message);
 		default:
 			break;
 		}
