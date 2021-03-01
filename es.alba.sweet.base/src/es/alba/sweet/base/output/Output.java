@@ -13,19 +13,19 @@ public enum Output {
 
 	DEBUG(OutputName.DEBUG), MESSAGE(OutputName.MESSAGE, DEBUG);
 
-	private List<AMessage> messages = new ArrayList<>();
+	private List<AMessage>	messages		= new ArrayList<>();
 
-	private List<Output> outputs = new ArrayList<>();
+	private List<Output>	outputs			= new ArrayList<>();
 
-	private AMessage currentMessage;
+	private AMessage		currentMessage;
 
-	private int nLength = 0;
+	private int				nLength			= 0;
 
-	private String name;
+	private String			name;
 
-	private Application application;
+	private Application		application;
 
-	public final static int MAX_CHARACTERS = 80000;
+	public final static int	MAX_CHARACTERS	= 80000;
 
 	Output(String name) {
 		this.name = name;
@@ -43,6 +43,10 @@ public enum Output {
 
 	public List<AMessage> getMessages() {
 		return this.messages;
+	}
+
+	public void print(AMessage message) {
+		message(message);
 	}
 
 	public void info(String method, String message) {
@@ -69,6 +73,8 @@ public enum Output {
 	}
 
 	private void message(AMessage message) {
+		// if (message.getMessage() == null) return;
+
 		while (nLength + message.getMessage().length() > MAX_CHARACTERS) {
 			nLength = nLength - messages.get(0).getMessage().length();
 			messages.remove(0);
@@ -77,7 +83,7 @@ public enum Output {
 
 		setCurrentMessage(message);
 
-		outputs.forEach(a -> a.message(Factory(a.name, message.getType(), application, message.getMethod(), message.getMessage())));
+		outputs.forEach(a -> a.message(Factory(a.name, message.getType(), message.getApplication(), message.getMethod(), message.getMessage())));
 
 		if (name.equalsIgnoreCase(OutputName.DEBUG)) {
 			LogFile.LOG.info(message.toString());

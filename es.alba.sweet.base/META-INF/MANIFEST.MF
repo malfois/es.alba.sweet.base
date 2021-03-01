@@ -3,12 +3,18 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Base
 Bundle-SymbolicName: es.alba.sweet.base
 Bundle-Version: 1.0.0.qualifier
-Automatic-Module-Name: es.alba.sweet.base
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.fasterxml.jackson.core.jackson-annotations;bundle-version="2.10.3",
  com.fasterxml.jackson.core.jackson-core;bundle-version="2.10.3",
- com.fasterxml.jackson.core.jackson-databind;bundle-version="2.10.3"
-Export-Package: es.alba.sweet.base.configuration,
+ com.fasterxml.jackson.core.jackson-databind;bundle-version="2.10.3",
+ org.eclipse.january;bundle-version="3.0.0"
+Export-Package: es.alba.sweet.base,
+ es.alba.sweet.base.communication,
+ es.alba.sweet.base.communication.command,
+ es.alba.sweet.base.configuration,
  es.alba.sweet.base.constant,
  es.alba.sweet.base.logger,
- es.alba.sweet.base.output
+ es.alba.sweet.base.output,
+ es.alba.sweet.base.scan,
+ es.alba.sweet.base.xygraph
+Automatic-Module-Name: es.alba.sweet.base

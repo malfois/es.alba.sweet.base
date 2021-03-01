@@ -44,7 +44,7 @@ public class LogFile {
 		try {
 
 			// fileTxt = new FileHandler("Z:\\github\\SERVER\\Logging_%g.txt", SIZE_LIMIT, 5);
-			fileTxt = new FileHandler(userDirectory + "logging_%g_%u.log", SIZE_LIMIT, 5, true);
+			fileTxt = new FileHandler(userDirectory + "logging.log", SIZE_LIMIT, 5, true);
 			// create a TXT formatter
 			MessageFormatter formatterTxt = new MessageFormatter();
 			fileTxt.setFormatter(formatterTxt);
