@@ -1,12 +1,50 @@
 package es.alba.sweet.base.scan;
 
-import org.eclipse.january.dataset.DoubleDataset;
-
 public class ScanData {
 
-	private DoubleDataset	x;
+	private FitData	raw			= new FitData();
 
-	private FitData			raw;
+	private FitData	derivative	= new FitData();
 
-	private FitData			derivative;
+	public ScanData() {
+	}
+
+	public ScanData(FitData raw, FitData derivative) {
+		this.raw = raw;
+		this.derivative = derivative;
+	}
+
+	public void addPoint(Double x, Double y) {
+		this.raw.addPoint(x, y);
+	}
+
+	public FitData getRaw() {
+		return raw;
+	}
+
+	public void setRaw(FitData raw) {
+		this.raw = raw;
+	}
+
+	public FitData getDerivative() {
+		return derivative;
+	}
+
+	public void setDerivative(FitData derivative) {
+		this.derivative = derivative;
+	}
+
+	public ScanData sublist(int from, int to) {
+		return new ScanData(this.raw.sublist(from, to), this.derivative.sublist(from, to));
+	}
+
+	public void derivate() {
+		this.derivative.setData(this.raw.derivate());
+	}
+
+	public void fit() {
+		this.raw.fit();
+		this.derivative.fit();
+	}
+
 }

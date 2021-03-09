@@ -13,11 +13,12 @@ public class Header extends CommandArgument {
 	private String			motor;
 	private int				scanID;
 	private String			selectedDiagnostic;
-	private List<String>	diagnostics	= new ArrayList<>();
+	private List<String>	diagnostics		= new ArrayList<>();
+	private List<String>	plotDiagnostics	= new ArrayList<>();
 
 	private int				numberOfPoints;
 
-	private List<String>	headerFile	= new ArrayList<>();
+	private List<String>	headerFile		= new ArrayList<>();
 
 	public Header() {
 	}
@@ -32,6 +33,7 @@ public class Header extends CommandArgument {
 		this.diagnostics = header.diagnostics;
 		this.numberOfPoints = header.numberOfPoints;
 		this.headerFile = header.headerFile;
+		this.plotDiagnostics = header.plotDiagnostics;
 	}
 
 	public String getCommand() {
@@ -96,6 +98,14 @@ public class Header extends CommandArgument {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+
+	public List<String> getPlotDiagnostics() {
+		return plotDiagnostics;
+	}
+
+	public void setPlotDiagnostics(List<String> plotDiagnostics) {
+		this.plotDiagnostics = plotDiagnostics;
 	}
 
 	@Override

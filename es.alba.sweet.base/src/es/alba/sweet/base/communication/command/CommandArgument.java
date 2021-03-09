@@ -21,12 +21,11 @@ public abstract class CommandArgument {
 	protected <T extends CommandArgument> T toObject(String json, Class<T> clazz) throws JsonException {
 		byte[] jsonData = json.getBytes();
 		try {
-			System.out.println(json);
-			System.out.println(clazz);
 			return (T) ObjectMapper.readValue(jsonData, clazz);
 		} catch (JsonParseException e) {
 			throw new JsonException("Error parsing " + json + " to object " + clazz);
 		} catch (JsonMappingException e) {
+			e.printStackTrace();
 			throw new JsonException("Error parsing " + json + " to object " + clazz);
 		} catch (IOException e) {
 			throw new JsonException("Error parsing " + json + " to object " + clazz);
@@ -36,7 +35,6 @@ public abstract class CommandArgument {
 	protected <T extends CommandArgument> String jsonConverter(T argument) {
 		StringWriter text = new StringWriter();
 		try {
-			// objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 			ObjectMapper.writeValue(text, argument);
 			return text.toString();
 		} catch (IOException e) {

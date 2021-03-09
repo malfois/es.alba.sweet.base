@@ -19,9 +19,7 @@ public enum Directory {
 			try {
 				Files.createDirectory(this.path);
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
-				Output.DEBUG.error("es.alba.sweet.base.constant.UserHome.set",
-						"Error creating directory " + this.path.toString());
+				Output.DEBUG.error("es.alba.sweet.base.constant.UserHome.set", "Error creating directory " + this.path.toString());
 				// e.printStackTrace();
 			}
 		}

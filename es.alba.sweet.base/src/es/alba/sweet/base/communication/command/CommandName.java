@@ -4,7 +4,7 @@ import java.util.List;
 
 public enum CommandName {
 
-	NAME, STOP_CLIENT, EXIT_SERVER, INFO, MESSAGE, DEBUG, SCAN_SIMULATION, SCAN_HEADER, UNKNOWN;
+	NAME, STOP_CLIENT, EXIT_SERVER, INFO, MESSAGE, DEBUG, SCAN_SIMULATION, SCAN_HEADER, SCAN_DATA_POINT, SCAN_STOPPED, UNKNOWN;
 
 	public static CommandName Factory(String name) {
 		List<CommandName> commands = List.of(CommandName.values());

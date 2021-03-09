@@ -14,6 +14,7 @@ Export-Package: es.alba.sweet.base,
  es.alba.sweet.base.configuration,
  es.alba.sweet.base.constant,
  es.alba.sweet.base.logger,
+ es.alba.sweet.base.maths,
  es.alba.sweet.base.output,
  es.alba.sweet.base.scan,
  es.alba.sweet.base.xygraph
