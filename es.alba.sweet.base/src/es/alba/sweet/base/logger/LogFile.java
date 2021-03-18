@@ -16,6 +16,8 @@ public class LogFile {
 	public static Logger		LOG;
 	public static Directory		USER_HOME;
 
+	private FileHandler			fileTxt;
+
 	private final static int	SIZE_LIMIT	= 1024 * 1024 * 5;
 
 	public LogFile() {
@@ -44,7 +46,7 @@ public class LogFile {
 		try {
 
 			// fileTxt = new FileHandler("Z:\\github\\SERVER\\Logging_%g.txt", SIZE_LIMIT, 5);
-			fileTxt = new FileHandler(userDirectory + "logging.log", SIZE_LIMIT, 5, true);
+			fileTxt = new FileHandler(userDirectory + "logging_%g.log", SIZE_LIMIT, 5, true);
 			// create a TXT formatter
 			MessageFormatter formatterTxt = new MessageFormatter();
 			fileTxt.setFormatter(formatterTxt);
@@ -57,4 +59,10 @@ public class LogFile {
 		}
 	}
 
+	public static void close() {
+		Handler[] handlers = LOG.getHandlers();
+		for (int i = 0; i < handlers.length; i++) {
+			handlers[i].close();
+		}
+	}
 }

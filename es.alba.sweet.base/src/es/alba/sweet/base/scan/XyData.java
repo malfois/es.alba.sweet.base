@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.alba.sweet.base.maths.Fitter;
 import es.alba.sweet.base.maths.Gaussian;
+import es.alba.sweet.base.output.Output;
 
 public class XyData {
 
@@ -59,30 +60,33 @@ public class XyData {
 
 	public XyData fit() {
 		Gaussian function = (Gaussian) Fitter.GaussianFit(this);
+		Output.MESSAGE.info("es.alba.sweet.base.scan.XyData.fit", function.parameterValuesToString());
 		return function.calculateValues(this.x);
 	}
 
 	public XyData derivate() {
-		List<Double> result = new ArrayList<>();
+		if (x.size() == 1) return new XyData();
 		int n = 1;
+		List<Double> results = new ArrayList<>();
+		x.stream().forEach(a -> results.add(0.0));
 		for (int i = 0, imax = x.size(); i < imax; i++) {
-			double LeftValue = selectedMean(y, i - n, i - 1);
-			double RightValue = selectedMean(y, i + 1, i + n);
-			double LeftPosition = selectedMean(x, i - n, i - 1);
-			double RightPosition = selectedMean(x, i + 1, i + n);
+			double LeftValue = SelectedMean(y, i - n, i - 1);
+			double RightValue = SelectedMean(y, i + 1, i + n);
+			double LeftPosition = SelectedMean(x, i - n, i - 1);
+			double RightPosition = SelectedMean(x, i + 1, i + n);
 
-			// now the values and positions are calculated, the derivative
-			// can be
-			// calculated.
-			result.add(((RightValue - LeftValue) / (RightPosition - LeftPosition)));
+			// now the values and positions are calculated, the derivative can be calculated.
+			Double result = (RightValue - LeftValue) / (RightPosition - LeftPosition);
+			results.set(i, result);
 		}
-		return new XyData(this.x, result);
+		XyData data = new XyData(x, results);
+		return data;
 	}
 
-	private double selectedMean(List<Double> data, int min, int max) {
+	private static double SelectedMean(List<Double> data, int Min, int Max) {
 
 		double result = 0.0;
-		for (int i = min, imax = data.size(); i <= max; i++) {
+		for (int i = Min, imax = data.size(); i <= Max; i++) {
 			// clip i appropriately, imagine that effectively the two ends
 			// continue
 			// straight out.
@@ -96,7 +100,7 @@ public class XyData {
 		}
 
 		// now the sum is complete, average the values.
-		result /= (max - min) + 1;
+		result /= (Max - Min) + 1;
 		return result;
 	}
 
@@ -116,5 +120,20 @@ public class XyData {
 
 		}
 		return sum;
+	}
+
+	public XyData crop(Double xMin, Double xMax) {
+		List<Double> xCrop = new ArrayList<>();
+		List<Double> yCrop = new ArrayList<>();
+
+		int numberOfPoints = x.size();
+		for (int i = 0; i < numberOfPoints; i++) {
+			Double xValue = x.get(i);
+			if (xValue >= xMin && xValue <= xMax) {
+				xCrop.add(xValue);
+				yCrop.add(y.get(i));
+			}
+		}
+		return new XyData(xCrop, yCrop);
 	}
 }
